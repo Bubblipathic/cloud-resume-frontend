@@ -1,0 +1,6 @@
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore the S3 deployment sync files (if any)
+.aws/

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jay Reario | Cloud Resume</title>
+    <!-- use tools like Node.js to "compile" the Tailwind classes into one tiny, static style.css file before deploying to AWS S3. -->
+    <script src="https://cdn.tailwindcss.com"></script> 
+    <script src="js/main.js"></script>
+</head>
+<body class="bg-stone-50 text-stone-900  font-sans min-h-screen flex flex-col">
+
+    <header id="header" class="bg-stone-50 py-6">
+        <div class="w-full px-14 flex justify-between items-center">
+            
+            <div class="flex items-baseline gap-4">
+                <a href="index.html" class="text-4xl font-bold tracking-tight text-stone-900">Jay Reario</a>
+                <p class="text-xl text-stone-500 font-medium">Aspiring Agogo Dancer</p>
+            </div>
+
+            <nav class="hidden md:flex gap-8 text-lg font-medium text-stone-600">
+                <a href="resume.html" class="hover:text-amber-600 transition-colors">Resume</a>
+                <a href="projects.html" class="hover:text-amber-600 transition-colors">Projects</a>
+                <a href="contact.html" class="hover:text-amber-600 transition-colors">Contact</a>
+            </nav>
+
+            <div class="md:hidden">
+                <button id="mobile-menu-btn" class="text-stone-600 hover:text-stone-900 focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <nav id="mobile-menu" class="hidden md:hidden flex flex-col px-14 py-4 mt-6 space-y-4 bg-stone-600 rounded-lg mx-14">
+            <a href="#resume" class="block font-bold text-stone-50 hover:text-amber-600">Resume</a>
+            <a href="#projects" class="block font-bold text-stone-50 hover:text-amber-600">Projects</a>
+            <a href="#contact" class="block font-bold text-stone-50 hover:text-amber-600">Contact</a>
+        </nav>
+    
+    </header>
+
+    <main id="body" class="flex-grow max-w-5xl mx-auto w-full px-6 py-32">
+        
+        <div class="flex flex-col md:flex-row gap-12 items-center md:items-stretch">
+            
+            <div class="md:w-1/2 bg-stone-100 rounded-full border border-stone-200 aspect-square overflow-hidden shadow-md">
+                <img 
+                    src="assets/profile.JPG"
+                    alt="Jay Reario Profile" 
+                    class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                >
+            </div>
+
+            <div class="md:w-1/2 flex flex-col justify-center gap-6">
+                
+                <div>
+                    <h3 class="text-8xl font-black text-stone-900 tracking-tighter">Hello</h3>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="text-xl font-bold text-stone-800 uppercase tracking-widest">A Bit About Me</h3>
+                    <p class="text-stone-600 text-lg leading-relaxed">
+                        I am the only disciple of the great Agogo Master, and I have been training under him for the past 10 years. My passion for Agogo dancing has driven me to perfect my skills and share the joy of this art form with others. I am excited to connect with fellow enthusiasts and explore opportunities in the world of Agogo dancing.
+                    </p>
+                </div>
+
+                <div class="flex flex-row justify-start items-center gap-4 pt-4">
+                    <a href="resume.html" 
+                       class="flex-1 aspect-square max-w-[120px] flex items-center justify-center rounded-full bg-amber-600 text-stone-50 font-bold shadow-md transition-all hover:bg-amber-700 hover:scale-105">
+                        Resume
+                    </a>
+
+                    <a href="projects.html" 
+                       class="flex-1 aspect-square max-w-[120px] flex items-center justify-center rounded-full bg-teal-700 text-stone-50 font-bold shadow-md transition-all hover:bg-teal-800 hover:scale-105">
+                        Projects
+                    </a>
+
+                    <a href="contact.html" 
+                       class="flex-1 aspect-square max-w-[120px] flex items-center justify-center rounded-full bg-indigo-700 text-stone-50 font-bold shadow-md transition-all hover:bg-indigo-800 hover:scale-105">
+                        Contact
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <hr class="border-stone-200 mx-14">
+
+    <footer id="footer" class="bg-stone-50 py-12">
+        <div class="w-full px-14 flex flex-col md:flex-row justify-between items-start gap-8">
+        
+            <div class="flex flex-col">
+                <h4 class="text-stone-400 text-xs font-bold uppercase tracking-[0.2em]">Phone</h4>
+                <p class="mt-1 font-semibold text-stone-800">xxx-xxx-xxxx</p>
+            </div>
+
+            <div class="flex flex-col">
+                <h4 class="text-stone-400 text-xs font-bold uppercase tracking-[0.2em]">Email</h4>
+                <p class="mt-1 font-semibold text-stone-800">jay@example.com</p>
+            </div>
+
+            <div class="flex flex-col">
+                <h4 class="text-stone-400 text-xs font-bold uppercase tracking-[0.2em]">Location</h4>
+                <p class="mt-1 font-semibold text-stone-800">Makati City, PH</p>
+            </div>
+
+            <div class="flex flex-col">
+                <h4 class="text-stone-400 text-xs font-bold uppercase tracking-[0.2em]">Profile Views</h4>
+                <p id="counter" class="mt-1 font-black text-amber-600">Loading...</p>
+            </div>
+
+        </div>
+
+        <div class="w-full mt-4 pt-4 text-center">
+            <p class="text-stone-500 text-sm">
+                &copy; <span id="year"></span> Jay Reario. Built for the Cloud Resume Challenge.
+            </p>
+        </div>
+
+    </footer>
+
+</body>
+</html>

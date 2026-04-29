@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jay Reario | Cloud Resume</title>
+    <!-- use tools like Node.js to "compile" the Tailwind classes into one tiny, static style.css file before deploying to AWS S3. -->
+    <script src="https://cdn.tailwindcss.com"></script> 
+    <script src="js/main.js"></script>
+</head>
+<body class="bg-stone-50 text-stone-900  font-sans min-h-screen flex flex-col">
+
+    <header id="header" class="bg-stone-50 py-6">
+        <div class="w-full px-14 flex justify-between items-center">
+            
+            <div class="flex items-baseline gap-4">
+                <a href="index.html" class="text-4xl font-bold tracking-tight text-stone-900">Jay Reario</a>
+                <p class="text-xl text-stone-500 font-medium">Aspiring Agogo Dancer</p>
+            </div>
+
+            <nav class="hidden md:flex gap-8 text-lg font-medium text-stone-600">
+                <a href="resume.html" class="hover:text-amber-600 transition-colors">Resume</a>
+                <a href="projects.html" class="hover:text-amber-600 transition-colors">Projects</a>
+                <a href="contact.html" class="hover:text-amber-600 transition-colors">Contact</a>
+            </nav>
+
+            <div class="md:hidden">
+                <button id="mobile-menu-btn" class="text-stone-600 hover:text-stone-900 focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <nav id="mobile-menu" class="hidden md:hidden flex flex-col px-14 py-4 mt-6 space-y-4 bg-stone-600 rounded-lg mx-14">
+            <a href="#resume" class="block font-bold text-stone-50 hover:text-amber-600">Resume</a>
+            <a href="#projects" class="block font-bold text-stone-50 hover:text-amber-600">Projects</a>
+            <a href="#contact" class="block font-bold text-stone-50 hover:text-amber-600">Contact</a>
+        </nav>
+    
+    </header>
+
+    <main id="body" class="flex-grow max-w-6xl mx-auto w-full px-6 py-14">
+        
+        <div class="mb-10 border-b border-stone-200 pb-4 text-center">
+            <h2 class="text-5xl font-black text-stone-900 tracking-tighter">Get In Touch</h2>
+            <p class="text-stone-500 text-lg mt-2">Have a question or want to work together? Leave a message below.</p>
+        </div>
+
+        <div class="bg-white border border-stone-200 rounded-2xl p-8 md:p-12 shadow-sm">
+            
+            <form action="#" method="POST" class="space-y-6">
+                
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-1">
+                        <label for="name" class="block text-sm font-bold text-stone-700 mb-2 uppercase tracking-wide">Name</label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required
+                               class="w-full bg-stone-50 border border-stone-300 rounded-lg px-4 py-3 text-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:border-transparent transition-all">
+                    </div>
+                    
+                    <div class="flex-1">
+                        <label for="email" class="block text-sm font-bold text-stone-700 mb-2 uppercase tracking-wide">Email</label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required
+                               class="w-full bg-stone-50 border border-stone-300 rounded-lg px-4 py-3 text-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:border-transparent transition-all">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="subject" class="block text-sm font-bold text-stone-700 mb-2 uppercase tracking-wide">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="Job Opportunity" required
+                           class="w-full bg-stone-50 border border-stone-300 rounded-lg px-4 py-3 text-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:border-transparent transition-all">
+                </div>
+
+                <div>
+                    <label for="message" class="block text-sm font-bold text-stone-700 mb-2 uppercase tracking-wide">Message</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Hello Jay, I would like to talk to you about..." required
+                              class="w-full bg-stone-50 border border-stone-300 rounded-lg px-4 py-3 text-stone-800 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:border-transparent transition-all resize-none"></textarea>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" 
+                            class="w-full md:w-auto bg-amber-600 text-white font-bold px-10 py-4 rounded-lg shadow-md transition-all duration-300 hover:bg-amber-700 hover:scale-[1.02] hover:shadow-lg flex items-center justify-center gap-2">
+                        <span>Send Message</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </main>
+
+    <hr class="border-stone-200 mx-14">
+
+    <footer id="footer" class="bg-stone-50 py-12">
+        <div class="w-full px-14 flex flex-col md:flex-row justify-between items-start gap-8">
+        
+            <div class="flex flex-col">
+                <h4 class="text-stone-400 text-xs font-bold uppercase tracking-[0.2em]">Phone</h4>
+                <p class="mt-1 font-semibold text-stone-800">xxx-xxx-xxxx</p>
+            </div>
+
+            <div class="flex flex-col">
+                <h4 class="text-stone-400 text-xs font-bold uppercase tracking-[0.2em]">Email</h4>
+                <p class="mt-1 font-semibold text-stone-800">jay@example.com</p>
+            </div>
+
+            <div class="flex flex-col">
+                <h4 class="text-stone-400 text-xs font-bold uppercase tracking-[0.2em]">Location</h4>
+                <p class="mt-1 font-semibold text-stone-800">Makati City, PH</p>
+            </div>
+
+            <div class="flex flex-col">
+                <h4 class="text-stone-400 text-xs font-bold uppercase tracking-[0.2em]">Profile Views</h4>
+                <p id="counter" class="mt-1 font-black text-amber-600">Loading...</p>
+            </div>
+
+        </div>
+
+        <div class="w-full mt-4 pt-4 text-center">
+            <p class="text-stone-500 text-sm">
+                &copy; <span id="year"></span> Jay Reario. Built for the Cloud Resume Challenge.
+            </p>
+        </div>
+
+    </footer>
+
+</body>
+</html>
