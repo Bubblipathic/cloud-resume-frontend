@@ -19,11 +19,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
 // FEATURE 1: Visitor Counter
 // ==========================================
 async function getVisitorCount() {
-    // Fake database number simulation for Chunk 1
-    setTimeout(() => {
-        const simulatedCount = 1337; 
-        document.getElementById("counter").innerText = simulatedCount;
-    }, 1000); 
+    // API GATEWAY URL
+    const apiUrl = "https://qgrl762mc0.execute-api.ap-southeast-1.amazonaws.com/counter";
+    
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        const count = data.number;
+
+        // Find the <span id="visitor-count"> and inject the number into it.
+        document.getElementById("visitor_count").innerText = count;     
+    } catch (error) {
+        console.error("Error fetching the visitor count:", error);
+        document.getElementById("visitor_count").innerText = "Offline";
+    }
 }
 
 // ==========================================
