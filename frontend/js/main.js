@@ -23,15 +23,20 @@ async function getVisitorCount() {
     const apiUrl = "https://qgrl762mc0.execute-api.ap-southeast-1.amazonaws.com/counter";
     
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, {
+            method: 'POST', // Explicitly tell fetch to use POST
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
         const data = await response.json();
         const count = data.number;
 
         // Find the <span id="visitor-count"> and inject the number into it.
-        document.getElementById("visitor_count").innerText = count;     
+        document.getElementById("counter").innerText = count;     
     } catch (error) {
         console.error("Error fetching the visitor count:", error);
-        document.getElementById("visitor_count").innerText = "Offline";
+        document.getElementById("counter").innerText = "Offline";
     }
 }
 
