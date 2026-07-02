@@ -1,6 +1,10 @@
 # Ignore OS-specific files
 .DS_Store
 Thumbs.db
+Desktop.ini
+
+# Ignore Windows Alternate Data Streams
+*:Zone.Identifier
 
 # Ignore the S3 deployment sync files (if any)
 .aws/
