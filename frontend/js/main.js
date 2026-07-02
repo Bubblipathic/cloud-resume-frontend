@@ -19,12 +19,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
 // FEATURE 1: Visitor Counter
 // ==========================================
 async function getVisitorCount() {
-    // API GATEWAY URL
     const apiUrl = "https://qgrl762mc0.execute-api.ap-southeast-1.amazonaws.com/counter";
+    const counterElement = document.getElementById("counter");
     
+    // STEP 1: Check if we already fetched the count during this visit
+    let savedCount = sessionStorage.getItem("visitorCount");
+
+    if (savedCount) {
+        // We already incremented the DB this session, just show the saved number!
+        console.log("Count retrieved from session storage.");
+        counterElement.innerText = savedCount;
+        return; // Exit the function early
+    }
+
+    // STEP 2: If no count is saved, reach out to the API to increment and get the new number
     try {
         const response = await fetch(apiUrl, {
-            method: 'POST', // Explicitly tell fetch to use POST
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -32,14 +43,17 @@ async function getVisitorCount() {
         const data = await response.json();
         const count = data.number;
 
-        // Find the <span id="visitor-count"> and inject the number into it.
-        document.getElementById("counter").innerText = count;     
+        // Display the number
+        counterElement.innerText = count; 
+        
+        // Save the number to Session Storage so it doesn't increment on refresh!
+        sessionStorage.setItem("visitorCount", count);
+
     } catch (error) {
         console.error("Error fetching the visitor count:", error);
-        document.getElementById("counter").innerText = "Offline";
+        counterElement.innerText = "Offline";
     }
 }
-
 // ==========================================
 // FEATURE 2: Dynamic Copyright Year
 // ==========================================
