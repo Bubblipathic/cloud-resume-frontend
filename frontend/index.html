@@ -45,11 +45,16 @@
         
         <div class="flex flex-col md:flex-row gap-12 items-center md:items-stretch">
             
-            <div class="md:w-1/2 bg-stone-100 rounded-full border border-stone-200 aspect-square overflow-hidden shadow-md">
+            <div class="relative group md:w-1/2 bg-stone-100 rounded-full border border-stone-200 aspect-square overflow-hidden shadow-md">
                 <img 
-                    src="assets/profile.JPG"
+                    src="assets/profile.jpg
                     alt="Jay Reario Profile" 
-                    class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                    class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                >
+                <img 
+                    src="assets/profile-hover.jpg" 
+                    alt="Jay Reario Profile Hover" 
+                    class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                 >
             </div>
 
