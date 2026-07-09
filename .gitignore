@@ -8,3 +8,16 @@ Desktop.ini
 
 # Ignore the S3 deployment sync files (if any)
 .aws/
+
+
+# Ignore node dependencies
+node_modules/
+
+# Cypress generated artifacts
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+cypress/reports/
+
+# Cypress environment variables (if they contain API keys or passwords)
+cypress.env.json
