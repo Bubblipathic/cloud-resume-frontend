@@ -16,10 +16,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 // ==========================================
-// FEATURE 1: Visitor Counter
+// FEATURE 1: Visitor Counter (with Session Storage Caching)
 // ==========================================
 async function getVisitorCount() {
-    const apiUrl = "https://qgrl762mc0.execute-api.ap-southeast-1.amazonaws.com/counter";
+    const awsApiUrl = "https://qgrl762mc0.execute-api.ap-southeast-1.amazonaws.com/counter";
     const counterElement = document.getElementById("counter");
     
     // STEP 1: Check if we already fetched the count during this visit
@@ -34,7 +34,7 @@ async function getVisitorCount() {
 
     // STEP 2: If no count is saved, reach out to the API to increment and get the new number
     try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch(awsApiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ async function getVisitorCount() {
     }
 }
 // ==========================================
-// FEATURE 2: Dynamic Copyright Year
+// FEATURE 2: Dynamic Copyright Year 
 // ==========================================
 function setCopyrightYear() {
     // new Date().getFullYear() looks at the user's computer clock and grabs the 4-digit year.
@@ -82,48 +82,36 @@ function setupMobileMenu() {
 
 
 // ==========================================
-// FEATURE 4: Automate GitHub Projects
+// FEATURE 4: Automate GitHub Projects (with Session Storage Caching)
 // ==========================================
 async function fetchGitHubProjects() {
     const container = document.getElementById('github-projects');
     if (!container) return; // Stop if we aren't on the projects page
 
-    // Later in the Cloud Resume Challenge (Chunk 3), you will build a backend using AWS API Gateway and Lambda where you can store your GitHub username as an environment variable.
-    
-    const username = "Bubblipathic"; // <-- PUT YOUR USERNAME HERE
-    const url = `https://api.github.com/users/${username}/repos?sort=updated&direction=desc`;
+    const username = "Bubblipathic";
+    const gitApiUrl = `https://api.github.com/users/${username}/repos?sort=updated&direction=desc`;
+    const cacheKey = `github_repos_${username}`;
 
-    try {
-        const response = await fetch(url);
-        const repos = await response.json();
-
+    // Helper function to render the UI from repository data
+    function displayRepos(repos) {
         // Clear the "Fetching..." text
         container.innerHTML = "";
 
-        // Create a list of repository names you want to HIDE from your portfolio
-        // Replace "another-repo-to-hide"
         const hiddenRepos = ["bubblipathic", "another-repo-to-hide"];
 
-        // Loop through each repository and create a card
         repos.forEach(repo => {
-            // Skip forks or specific repos you don't want to show
             if (repo.fork) return; 
-
-            // Skip any repos that match the names in our hidden list
             if (hiddenRepos.includes(repo.name)) return;
 
-            // Format the date to look nice (e.g., "Oct 10, 2025")
             const date = new Date(repo.updated_at).toLocaleDateString('en-US', {
                 month: 'short', day: 'numeric', year: 'numeric'
             });
 
-            // Set a color for the language badge (default to gray if none)
             let badgeColor = "bg-stone-200 text-stone-800";
             if (repo.language === "Python") badgeColor = "bg-blue-100 text-blue-800";
             if (repo.language === "HTML") badgeColor = "bg-orange-100 text-orange-800";
             if (repo.language === "Java") badgeColor = "bg-red-100 text-red-800";
 
-            // Build the HTML for the card
             const cardHTML = `
                 <a href="${repo.html_url}" target="_blank" class="group flex flex-col justify-between bg-white border border-stone-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                     <div>
@@ -144,10 +132,36 @@ async function fetchGitHubProjects() {
                     </div>
                 </a>
             `;
-
-            // Inject the card into the grid
             container.innerHTML += cardHTML;
         });
+    }
+
+    try {
+        // 1. Check if we already have the data cached in this tab session
+        const cachedData = sessionStorage.getItem(cacheKey);
+
+        if (cachedData) {
+            console.log("Loading GitHub data from sessionStorage cache...");
+            const repos = JSON.parse(cachedData);
+            displayRepos(repos);
+            return; // Exit early, no network call needed!
+        }
+
+        // 2. If no cache exists, make the network request to GitHub
+        console.log("Cache miss. Fetching fresh data from GitHub API...");
+        const response = await fetch(gitApiUrl);
+        
+        if (!response.ok) {
+            throw new Error(`GitHub API returned status: ${response.status}`);
+        }
+
+        const repos = await response.json();
+
+        // 3. Save the stringified array into sessionStorage for next time
+        sessionStorage.setItem(cacheKey, JSON.stringify(repos));
+
+        // 4. Render the UI
+        displayRepos(repos);
 
     } catch (error) {
         console.error("Error fetching GitHub repos:", error);
