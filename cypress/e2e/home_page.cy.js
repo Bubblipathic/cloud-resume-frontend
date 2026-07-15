@@ -15,7 +15,7 @@ describe('The Home Page', () => {
         cy.visit('/') 
     })
 
-    it('[T0001] Loads the page and displays the main structural elements', () => {
+    it('Loads the page and displays the main structural elements', () => {
         cy.get('header').should('be.visible')
         cy.get('main').should('be.visible')
         cy.get('footer').should('be.visible')
@@ -23,43 +23,43 @@ describe('The Home Page', () => {
         cy.get('header').contains('a', 'Jay Reario').should('be.visible')
     })
 
-    it('[T0002] Clicking the logo navigates to the home page', () => {
+    it('Clicking the logo navigates to the home page', () => {
         cy.get('header').contains('a', 'Jay Reario').click()
         cy.url().should('eq', Cypress.config().baseUrl + '/index.html')
     })
 
-    it('[T0003] Clicking the resume link in header navigates to the resume page', () => {
+    it('Clicking the resume link in header navigates to the resume page', () => {
         cy.get('header').contains('a', 'Resume').click()
         cy.url().should('eq', Cypress.config().baseUrl + '/resume.html')
     })
 
-    it('[T0004] Clicking the projects link in header navigates to the projects page', () => {
+    it('Clicking the projects link in header navigates to the projects page', () => {
         cy.get('header').contains('a', 'Projects').click()
         cy.url().should('eq', Cypress.config().baseUrl + '/projects.html')
     })
 
-    it('[T0005] Clicking the contact link in header navigates to the contact page', () => {
+    it('Clicking the contact link in header navigates to the contact page', () => {
         cy.get('header').contains('a', 'Contact').click()
         cy.url().should('eq', Cypress.config().baseUrl + '/contact.html')
     })
 
-    it('[T0006] renders both profile images', () => {
+    it('renders both profile images', () => {
         
         cy.get('img[alt="Jay Reario Profile"]').should('exist');
         cy.get('img[alt="Jay Reario Profile Hover"]').should('exist');
     });
 
-    it('[T0007] Clicking the resume link in main navigates to the resume page', () => {
+    it('Clicking the resume link in main navigates to the resume page', () => {
         cy.get('main').contains('a', 'Resume').click()
         cy.url().should('eq', Cypress.config().baseUrl + '/resume.html')
     })
 
-    it('[T0008] Clicking the projects link in main navigates to the projects page', () => {
+    it('Clicking the projects link in main navigates to the projects page', () => {
         cy.get('main').contains('a', 'Projects').click()
         cy.url().should('eq', Cypress.config().baseUrl + '/projects.html')
     })
 
-    it('[T0009] Clicking the contact link in main navigates to the contact page', () => {
+    it('Clicking the contact link in main navigates to the contact page', () => {
         cy.get('main').contains('a', 'Contact').click()
         cy.url().should('eq', Cypress.config().baseUrl + '/contact.html')
     })      
