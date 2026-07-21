@@ -170,25 +170,25 @@ async function fetchGitHubProjects() {
         console.error("Error fetching GitHub repos:", error);
         container.innerHTML = `<p class="text-red-500 col-span-full">Failed to load projects. Please check my GitHub profile directly!</p>`;
     }
+}
 
-    // ==========================================
+
+// ==========================================
 // FEATURE 5: Contact Form Submission
 // ==========================================
 function setupContactForm() {
     const contactForm = document.querySelector('form');
-    if (!contactForm) return; // Stop if we aren't on the contact page
+    if (!contactForm) return;
 
     contactForm.addEventListener('submit', async (event) => {
-        // 1. Prevent the page from reloading
+        // 1. Prevent the page from reloading / posting to localhost
         event.preventDefault();
 
-        // 2. Grab the submit button so we can change its text while loading
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         const originalBtnText = submitBtn.innerHTML;
         submitBtn.innerHTML = "Sending...";
         submitBtn.disabled = true;
 
-        // 3. Gather the data from the form inputs
         const formData = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
@@ -196,8 +196,8 @@ function setupContactForm() {
             message: document.getElementById('message').value
         };
 
-        // 4. Send the data to your AWS API Gateway
-        const awsEmailApiUrl = "https://n5z7ta453e.execute-api.ap-southeast-1.amazonaws.com";
+        // Note: Ensured the /contact endpoint path is included
+        const awsEmailApiUrl = "https://n5z7ta453e.execute-api.ap-southeast-1.amazonaws.com/contact";
 
         try {
             const response = await fetch(awsEmailApiUrl, {
@@ -207,10 +207,9 @@ function setupContactForm() {
             });
 
             if (response.ok) {
-                // Success! Clear the form and tell the user.
                 contactForm.reset();
                 submitBtn.innerHTML = "Message Sent! ✓";
-                submitBtn.classList.replace('bg-amber-600', 'bg-green-600'); // Optional: turn button green
+                submitBtn.classList.replace('bg-amber-600', 'bg-green-600');
             } else {
                 throw new Error("Server rejected the request");
             }
@@ -220,7 +219,6 @@ function setupContactForm() {
             submitBtn.classList.replace('bg-amber-600', 'bg-red-600');
         }
 
-        // Reset the button after 3 seconds if there was an error
         setTimeout(() => {
             if (submitBtn.innerHTML.includes("Error")) {
                 submitBtn.innerHTML = originalBtnText;
@@ -229,6 +227,4 @@ function setupContactForm() {
             }
         }, 3000);
     });
-}
-
 }
