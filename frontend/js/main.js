@@ -13,13 +13,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // 4. FETCH GITHUB PROJECTS AND DISPLAY THEM
     fetchGitHubProjects();
 
+    // 5. SETUP THE CONTACT FORM HANDLER
+    setupContactForm();
+
 });
 
 // ==========================================
 // FEATURE 1: Visitor Counter (with Session Storage Caching)
 // ==========================================
 async function getVisitorCount() {
-    const awsApiUrl = "https://qgrl762mc0.execute-api.ap-southeast-1.amazonaws.com/counter";
+    const awsCounterApiUrl = "https://qgrl762mc0.execute-api.ap-southeast-1.amazonaws.com/counter";
     const counterElement = document.getElementById("counter");
     
     // STEP 1: Check if we already fetched the count during this visit
@@ -34,7 +37,7 @@ async function getVisitorCount() {
 
     // STEP 2: If no count is saved, reach out to the API to increment and get the new number
     try {
-        const response = await fetch(awsApiUrl, {
+        const response = await fetch(awsCounterApiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -167,4 +170,65 @@ async function fetchGitHubProjects() {
         console.error("Error fetching GitHub repos:", error);
         container.innerHTML = `<p class="text-red-500 col-span-full">Failed to load projects. Please check my GitHub profile directly!</p>`;
     }
+
+    // ==========================================
+// FEATURE 5: Contact Form Submission
+// ==========================================
+function setupContactForm() {
+    const contactForm = document.querySelector('form');
+    if (!contactForm) return; // Stop if we aren't on the contact page
+
+    contactForm.addEventListener('submit', async (event) => {
+        // 1. Prevent the page from reloading
+        event.preventDefault();
+
+        // 2. Grab the submit button so we can change its text while loading
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = "Sending...";
+        submitBtn.disabled = true;
+
+        // 3. Gather the data from the form inputs
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value
+        };
+
+        // 4. Send the data to your AWS API Gateway
+        const awsEmailApiUrl = "https://n5z7ta453e.execute-api.ap-southeast-1.amazonaws.com";
+
+        try {
+            const response = await fetch(awsEmailApiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                // Success! Clear the form and tell the user.
+                contactForm.reset();
+                submitBtn.innerHTML = "Message Sent! ✓";
+                submitBtn.classList.replace('bg-amber-600', 'bg-green-600'); // Optional: turn button green
+            } else {
+                throw new Error("Server rejected the request");
+            }
+        } catch (error) {
+            console.error("Failed to send message:", error);
+            submitBtn.innerHTML = "Error Sending. Try Again.";
+            submitBtn.classList.replace('bg-amber-600', 'bg-red-600');
+        }
+
+        // Reset the button after 3 seconds if there was an error
+        setTimeout(() => {
+            if (submitBtn.innerHTML.includes("Error")) {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                submitBtn.classList.replace('bg-red-600', 'bg-amber-600');
+            }
+        }, 3000);
+    });
+}
+
 }
