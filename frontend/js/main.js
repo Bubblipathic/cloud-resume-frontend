@@ -180,6 +180,25 @@ function setupContactForm() {
     const contactForm = document.querySelector('form');
     if (!contactForm) return;
 
+    // 1. Check if they already sent a message recently
+    const lastSentStr = localStorage.getItem('messageSentTimestamp');
+
+    if (lastSentStr) {
+        const lastSentTime = parseInt(lastSentStr, 10); // Convert saved string back to a number
+        const currentTime = Date.now();                 // Get the exact time right now
+        
+        // Set your cooldown period in milliseconds (e.g., 1 hour)
+        // 1 hour = 60 mins * 60 secs * 1000 ms
+        const cooldownPeriod = 60 * 60 * 1000; 
+
+        // If the difference between now and the last sent time is LESS than the cooldown...
+        if (currentTime - lastSentTime < cooldownPeriod) {
+            event.preventDefault();
+            alert("You've already sent a message recently! Please wait an hour before sending another.");
+            return;
+        }
+    }
+
     contactForm.addEventListener('submit', async (event) => {
         // 1. Prevent the page from reloading / posting to localhost
         event.preventDefault();
@@ -210,6 +229,7 @@ function setupContactForm() {
                 contactForm.reset();
                 submitBtn.innerHTML = "Message Sent! ✓";
                 submitBtn.classList.replace('bg-amber-600', 'bg-green-600');
+                localStorage.setItem('messageSentTimestamp', Date.now().toString());
             } else {
                 throw new Error("Server rejected the request");
             }
