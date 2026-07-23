@@ -189,12 +189,13 @@ function setupContactForm() {
         
         // Set your cooldown period in milliseconds (e.g., 1 hour)
         // 1 hour = 60 mins * 60 secs * 1000 ms
-        const cooldownPeriod = 60 * 60 * 1000; 
+        // 5 minutes = 5 mins * 60 secs * 1000 ms
+        const cooldownPeriod = 5 * 60 * 1000; 
 
         // If the difference between now and the last sent time is LESS than the cooldown...
         if (currentTime - lastSentTime < cooldownPeriod) {
             event.preventDefault();
-            alert("You've already sent a message recently! Please wait an hour before sending another.");
+            alert("You've already sent a message recently! Please wait a bit before sending another.");
             return;
         }
     }
