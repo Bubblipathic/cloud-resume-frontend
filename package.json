@@ -22,6 +22,7 @@
     "cypress": "^15.18.0"
   },
   "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
     "ansi-escapes": "^7.3.0",
     "ansi-regex": "^6.2.2",
     "ansi-styles": "^4.3.0",
@@ -154,6 +155,7 @@
     "strip-final-newline": "^2.0.0",
     "supports-color": "^8.1.1",
     "systeminformation": "^5.31.13",
+    "tailwindcss": "^4.3.3",
     "throttleit": "^1.0.1",
     "tldts": "^6.1.86",
     "tldts-core": "^6.1.86",
