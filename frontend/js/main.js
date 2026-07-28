@@ -241,11 +241,11 @@ function setupContactForm() {
         }
 
         setTimeout(() => {
-            if (submitBtn.innerHTML.includes("Error")) {
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
-                submitBtn.classList.replace('bg-red-600', 'bg-amber-600');
-            }
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+            // Remove any success/error colors and put the original amber color back
+            submitBtn.classList.remove('bg-green-600', 'bg-red-600');
+            submitBtn.classList.add('bg-amber-600');
         }, 3000);
     });
 }
