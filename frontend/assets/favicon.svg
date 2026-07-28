@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background with stone-200 border and stone-50 fill -->
+  <rect width="90" height="90" x="5" y="5" rx="20" fill="#fafaf9" stroke="#e7e5e4" stroke-width="6" />
+  
+  <!-- Thick bold centered text -->
+  <text x="50" y="56" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-weight="900" 
+        font-size="40" 
+        text-anchor="middle" 
+        dominant-baseline="middle"
+        letter-spacing="-2">
+    <!-- 'JM' in stone-600 -->
+    <tspan fill="#57534e">JM</tspan><!-- 'R' in amber-600 --><tspan fill="#d97706">R</tspan>
+  </text>
+</svg>

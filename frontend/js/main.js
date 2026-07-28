@@ -177,38 +177,38 @@ async function fetchGitHubProjects() {
 // FEATURE 5: Contact Form Submission
 // ==========================================
 function setupContactForm() {
+    // Locate the contact form on the page. 
+    // If no form exists on the current page, exit early to prevent script errors.
     const contactForm = document.querySelector('form');
     if (!contactForm) return;
 
-    // 1. Check if they already sent a message recently
-    const lastSentStr = localStorage.getItem('messageSentTimestamp');
-
-    if (lastSentStr) {
-        const lastSentTime = parseInt(lastSentStr, 10); // Convert saved string back to a number
-        const currentTime = Date.now();                 // Get the exact time right now
-        
-        // Set your cooldown period in milliseconds (e.g., 1 hour)
-        // 1 hour = 60 mins * 60 secs * 1000 ms
-        // 5 minutes = 5 mins * 60 secs * 1000 ms
-        const cooldownPeriod = 5 * 60 * 1000; 
-
-        // If the difference between now and the last sent time is LESS than the cooldown...
-        if (currentTime - lastSentTime < cooldownPeriod) {
-            event.preventDefault();
-            alert("You've already sent a message recently! Please wait a bit before sending another.");
-            return;
-        }
-    }
-
     contactForm.addEventListener('submit', async (event) => {
-        // 1. Prevent the page from reloading / posting to localhost
+        // Prevent the default browser form submission, which would cause a page reload
         event.preventDefault();
+
+        // Check localStorage to see if the user recently submitted a message
+        const lastSentStr = localStorage.getItem('messageSentTimestamp');
+
+        if (lastSentStr) {
+            const lastSentTime = parseInt(lastSentStr, 10);
+            const currentTime = Date.now();
+            const cooldownPeriod = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+            // If the 5-minute cooldown hasn't expired, block the submission and alert the user
+            if (currentTime - lastSentTime < cooldownPeriod) {
+                alert("You've already sent a message recently! Please wait a bit before sending another.");
+                return; 
+            }
+        }
 
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         const originalBtnText = submitBtn.innerHTML;
+        
+        // Disable the button and update text to provide immediate feedback to the user
         submitBtn.innerHTML = "Sending...";
         submitBtn.disabled = true;
 
+        // Extract the current values from the form inputs
         const formData = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
@@ -216,10 +216,10 @@ function setupContactForm() {
             message: document.getElementById('message').value
         };
 
-        // Note: Ensured the /contact endpoint path is included
         const awsEmailApiUrl = "https://n5z7ta453e.execute-api.ap-southeast-1.amazonaws.com/contact";
 
         try {
+            // Send the JSON payload to the AWS API Gateway endpoint
             const response = await fetch(awsEmailApiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -227,23 +227,29 @@ function setupContactForm() {
             });
 
             if (response.ok) {
+                // Success: Clear the form fields and show a success message
                 contactForm.reset();
                 submitBtn.innerHTML = "Message Sent! ✓";
                 submitBtn.classList.replace('bg-amber-600', 'bg-green-600');
+                
+                // Record the time of this successful submission for the cooldown check
                 localStorage.setItem('messageSentTimestamp', Date.now().toString());
             } else {
                 throw new Error("Server rejected the request");
             }
         } catch (error) {
+            // Error: Log the issue for debugging and notify the user visually
             console.error("Failed to send message:", error);
             submitBtn.innerHTML = "Error Sending. Try Again.";
             submitBtn.classList.replace('bg-amber-600', 'bg-red-600');
         }
 
+        // Wait 3 seconds, then restore the button to its original, clickable state
         setTimeout(() => {
             submitBtn.innerHTML = originalBtnText;
             submitBtn.disabled = false;
-            // Remove any success/error colors and put the original amber color back
+            
+            // Strip away temporary success/error colors and re-apply the default theme color
             submitBtn.classList.remove('bg-green-600', 'bg-red-600');
             submitBtn.classList.add('bg-amber-600');
         }, 3000);
