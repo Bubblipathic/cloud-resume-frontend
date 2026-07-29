@@ -423,9 +423,6 @@
   .justify-center {
     justify-content: center;
   }
-  .justify-start {
-    justify-content: flex-start;
-  }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
@@ -886,6 +883,9 @@
     }
     .md\:items-stretch {
       align-items: stretch;
+    }
+    .md\:justify-start {
+      justify-content: flex-start;
     }
     .md\:p-12 {
       padding: calc(var(--spacing) * 12);
